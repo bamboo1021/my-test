@@ -4,3 +4,7 @@
 class Run(object):
     def return_true(self):
         return True
+
+
+def hello():
+    pass
