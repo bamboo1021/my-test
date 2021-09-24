@@ -1,0 +1,45 @@
+name: pull_request
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [synchronize, reopened, labeled]
+    branches:
+      - master
+      - 'v[0-9]+.*'
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - centos7
+          - ubuntu2004
+        compiler:
+          - gcc-9.2
+          - clang-10
+        exclude:
+          - os: centos7
+            compiler: clang-10
+    container:
+      image: vesoft/nebula-dev:${{ matrix.os }}
+      env:
+        CCACHE_DIR: /tmp/ccache/nebula/${{ matrix.os }}-${{ matrix.compiler }}
+        CCACHE_MAXSIZE: 8G
+      volumes:
+        - /tmp/ccache/nebula/${{ matrix.os }}-${{ matrix.compiler }}:/tmp/ccache/nebula/${{ matrix.os }}-${{ matrix.compiler }}
+      options: --cap-add=SYS_PTRACE
+    steps:
+      - uses: actions/checkout@v2
+      - name: run test
+        id: prepare
+        run: |
+          [ -d build/ ] && rm -rf build/* || mkdir -p build
+          make init -C tests
