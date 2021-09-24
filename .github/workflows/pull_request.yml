@@ -39,7 +39,9 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: run test
-        id: prepare
+        if: ${{ matrix.compiler == 'gcc-9.2' && matrix.os == 'ubuntu2004' }}
         run: |
-          [ -d build/ ] && rm -rf build/* || mkdir -p build
-          make init -C tests
+          pip install poetry
+          poetry install
+          poetry run pytest --cov my_test tests
+          poetry run bash <(curl -s https://codecov.io/bash)
