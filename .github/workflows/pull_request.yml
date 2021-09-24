@@ -39,6 +39,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: run test
+        if: ${{ matrix.compiler == 'gcc-9.2' && matrix.os == 'ubuntu2004' }
         run: |
           pip install --user poetry
           poetry install
