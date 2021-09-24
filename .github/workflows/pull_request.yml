@@ -44,4 +44,4 @@ jobs:
           pip install poetry
           poetry install
           poetry run pytest --cov my_test tests
-          bash <(curl -s https://codecov.io/bash)
+          codecov
