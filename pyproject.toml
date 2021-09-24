@@ -8,6 +8,7 @@ authors = ["HarrisChu <1726587+HarrisChu@users.noreply.github.com>"]
 python = "^3.7"
 pytest = "^6.2.5"
 black = "^21.9b0"
+pytest-cov = "^2.12.1"
 
 [tool.poetry.dev-dependencies]
 

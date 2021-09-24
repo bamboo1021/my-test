@@ -39,7 +39,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: run test
-        id: prepare
         run: |
-          [ -d build/ ] && rm -rf build/* || mkdir -p build
-          make init -C tests
+          pip install --user poetry
+          poetry install
+          poetry run pytest --cov my_test tests
+          bash <(curl -s https://codecov.io/bash)
