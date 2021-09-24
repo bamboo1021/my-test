@@ -41,7 +41,7 @@ jobs:
       - name: run test
         if: ${{ matrix.compiler == 'gcc-9.2' && matrix.os == 'ubuntu2004' }}
         run: |
-          pip install --user poetry
+          pip install poetry
           poetry install
           poetry run pytest --cov my_test tests
           bash <(curl -s https://codecov.io/bash)
