@@ -58,7 +58,7 @@ jobs:
           to: harris.chu@vesoft.com
           cc: harris.chu@vesoft.com
           from: Harris
-          secure: true
+          secure: false
           body: Build job of ${{github.repository}} completed failed!
           # html_body: file://README.html
           ignore_cert: true
