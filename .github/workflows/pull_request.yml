@@ -45,3 +45,21 @@ jobs:
           poetry install
           poetry run pytest --cov my_test tests
           poetry run bash <(curl -s https://codecov.io/bash)
+
+      - name: Send mail
+        if: ${{ failure() }}
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.office365.com
+          server_port: 587
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: Github Actions job result
+          to: harris.chu@vesoft.com
+          cc: harris.chu@vesoft.com
+          from: Harris
+          secure: true
+          body: Build job of ${{github.repository}} completed failed!
+          html_body: file://README.html
+          ignore_cert: true
+          convert_markdown: true
